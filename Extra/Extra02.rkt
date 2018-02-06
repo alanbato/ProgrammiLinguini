@@ -38,7 +38,7 @@
 )
 
 (define (list->number x)
-  (display "Not Implemented")
+  (string->number (apply string-append (map number->string x)))
 )
 
 (define (complete-graphs x)
