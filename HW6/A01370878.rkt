@@ -12,7 +12,7 @@
 (define (myReverse x)
   (if (null? x)
     '()
-    (list (myReverse (cdr x)) (list (car x)))
+    (append (myReverse (cdr x)) (list (car x)))
   )
 )
 
@@ -31,15 +31,36 @@
 )
 
 (define (fibonacci n)
-  (display "Not yet implemented.")		
+  (if (< n 2)
+    n
+    (+ (fibonacci (- n 1))
+       (fibonacci (- n 2))
+    )
+  )
+)
+
+(define (sum-helper x acc)
+  (cond
+  [(null? x) acc]
+  [(list? (car x)) (sum-helper (cdr x) acc)]
+  [else (sum-helper (cdr x) (+ (car x) acc))]
+  )
 )
 
 (define (sum x)
-  (display "Not yet implemented.")		
+  (sum-helper x 0)
+)
+
+(define (nested-sum-helper x acc)
+  (cond
+  [(null? x) acc]
+  [(list? (car x)) (nested-sum-helper (cdr x) (nested-sum-helper (car x) acc))]
+  [else (nested-sum-helper (cdr x) (+ (car x) acc))]
+  )
 )
 
 (define (nestedSum x)
-  (display "Not yet implemented.")		
+  (nested-sum-helper x 0)
 )
 
 (define (removeNestedLists x)
