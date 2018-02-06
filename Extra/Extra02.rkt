@@ -27,8 +27,17 @@
   (lambda (y z) (- (+ (* x y) z) 1 ))
 )
 
-(define (merge x)
-  (display "Not Implemented")
+(define (merge x y)
+  (cond
+   [(null? x) y]
+   [(null? y) x]
+   [else
+    (if (< (car x) (car y))
+      (cons (car x) (merge (cdr x) y))
+      (cons (car y) (merge (cdr y) x))
+    )
+   ]
+  )
 )
 
 (define (to_bool x) (if (equal? x 1) #t #f))
