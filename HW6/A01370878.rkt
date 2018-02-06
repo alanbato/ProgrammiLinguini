@@ -43,7 +43,11 @@
 )
 
 (define (removeNestedLists x)
-  (display "Not yet implemented.")		
+  (if (null? x)
+    x
+    (if (list? (car x))
+      (append (removeNestedLists (car x)) (removeNestedLists (cdr x)))
+      (cons (car x) (removeNestedLists(cdr x)))
+    )
+  )
 )
-
-(myMean '(18 5.1 7 19.6 20))
