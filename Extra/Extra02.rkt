@@ -44,7 +44,15 @@
 (define (complete-graphs x)
   (display "Not Implemented")
 )
+
+(define (sum-matrix-helper x accum)
+  (if (null? x)
+    accum
+    (sum-matrix-helper (cdr x) (+ (apply + (car x)) accum))
+  )
+)
+
 (define (sum-matrix x)
-  (display "Not Implemented")
+  (sum-matrix-helper x 0)
 )
 
