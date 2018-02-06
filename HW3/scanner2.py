@@ -42,7 +42,7 @@ def scan(input_str):
             char = input_str[idx]
             prev_state = state
             state = transition_mat[prev_state][read(char)]
-            print("{} {} -> {}".format(prev_state, char, state))
+            # print("{} {} -> {}".format(prev_state, char, state))
             if ((prev_state >= 0 and 0 < state < 4) or
                     prev_state == 0 and state >= 100):
                 token_value.append(char)
@@ -57,9 +57,10 @@ def scan(input_str):
         new_token = Token(elements[element_idx],
                           ''.join(token_value))
         tokens.append(new_token)
-        #print(tokens)
+        # print(tokens)
     return tokens
 
 
-string = input('Enter input string: ')
-print(scan(string))
+if __name__ == '__main__':
+    string = input('Enter input string: ')
+    print(scan(string))
