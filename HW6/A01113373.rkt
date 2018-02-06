@@ -16,8 +16,18 @@
   )
 )
 
+(define (myMeanHelper l accum)
+  (if (null? l)
+    accum
+    (myMeanHelper (cdr l) (+ (car l) accum))
+  )
+)
+
 (define (myMean x)
-  (display "Not yet implemented.")	
+  (if (null? x)
+    "Error"
+    ( / (myMeanHelper x 0) (length x))
+  )
 )
 
 (define (fibonacci n)
@@ -54,5 +64,11 @@
 )
 
 (define (removeNestedLists x)
-  (display "Not yet implemented.")		
+  (if (null? x)
+    x
+    (if (list? (car x))
+      (append (removeNestedLists (car x)) (removeNestedLists (cdr x)))
+      (cons (car x) (removeNestedLists(cdr x)))
+    )
+  )
 )
