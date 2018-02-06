@@ -1,5 +1,18 @@
+#lang racket
+
+(define (prime-helper x y)
+  (cond
+    [(= y 1) #t]
+    [(= (remainder x y) 0) #f]
+    [else (prime-helper x (- y 1))]
+  )
+)
+
 (define (prime? x)
-  (display "Not Implemented")
+  (if (= x 1)
+    #t
+    (prime-helper x (- x 1))
+  )
 )
 
 (define (sum-digits x)
