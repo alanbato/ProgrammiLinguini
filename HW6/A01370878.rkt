@@ -39,11 +39,11 @@
   )
 )
 
-(define (sum-helper x acc)
+(define (sum-helper x accum)
   (cond
-  [(null? x) acc]
-  [(list? (car x)) (sum-helper (cdr x) acc)]
-  [else (sum-helper (cdr x) (+ (car x) acc))]
+  [(null? x) accum]
+  [(list? (car x)) (sum-helper (cdr x) accum)]
+  [else (sum-helper (cdr x) (+ (car x) accum))]
   )
 )
 
@@ -51,11 +51,11 @@
   (sum-helper x 0)
 )
 
-(define (nested-sum-helper x acc)
+(define (nested-sum-helper x accum)
   (cond
-  [(null? x) acc]
-  [(list? (car x)) (nested-sum-helper (cdr x) (nested-sum-helper (car x) acc))]
-  [else (nested-sum-helper (cdr x) (+ (car x) acc))]
+  [(null? x) accum]
+  [(list? (car x)) (nested-sum-helper (cdr x) (nested-sum-helper (car x) accum))]
+  [else (nested-sum-helper (cdr x) (+ (car x) accum))]
   )
 )
 
