@@ -12,7 +12,7 @@
 (define (myReverse x)
   (if (null? x)
     '()
-    (list (myReverse (cdr x)) (list (car x)))
+    (append (myReverse (cdr x)) (list (car x)))
   )
 )
 
