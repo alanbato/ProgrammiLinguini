@@ -15,8 +15,8 @@
   )
 )
 
-(define (sum-digits x)
-  (display "Not Implemented")
+(define (count-digits l)
+  (apply + (map string-length (map number->string l)))
 )
 
 (define (advanced-mean x)
@@ -24,11 +24,17 @@
 )
 
 (define (curried-do-smt x)
-  (display "Not Implemented")
+  (lambda (y z) (- (+ (* x y) z) 1 ))
 )
 
 (define (merge x)
   (display "Not Implemented")
+)
+
+(define (to_bool x) (if (equal? x 1) #t #f))
+(define (to_int x) (if x 1 0))
+(define (boolean_ops x y)
+  (map (lambda (a b) (to_int (or (to_bool a) (to_bool b)))) x y)
 )
 
 (define (list->number x)
@@ -41,3 +47,4 @@
 (define (sum-matrix x)
   (display "Not Implemented")
 )
+
