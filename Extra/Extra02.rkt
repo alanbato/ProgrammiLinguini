@@ -64,8 +64,24 @@
   (string->number (apply string-append (map number->string x)))
 )
 
+(define (in-all-edges? x y)
+;;; 1 '((1 2 3) (1 2)) -> #t
+  (cond ;;; An OR could be here, but we want to return a bool so we use cond
+    [(null? y) #t] ;;; Last call is not important
+    [(and (member x (car y)) (in-all-edges? x (cdr y))) #t]
+    [else #f]
+  )
+)
+
 (define (complete-graphs x)
-  (display "Not Implemented")
+  (cond 
+    [(null? x) #f]
+    [(null? (cdr x)) #f]
+    [(null? (car x)) #t] ;;; Last call is not important
+    [else (and
+            (in-all-edges? (caar x) (cdr x))
+            (complete-graphs (cons (cdar x) (cdr x))))]
+  )
 )
 
 (define (sum-matrix-helper x accum)
@@ -78,5 +94,3 @@
 (define (sum-matrix x)
   (sum-matrix-helper x 0)
 )
-
-(advanced-mean '())
