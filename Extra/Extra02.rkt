@@ -19,8 +19,22 @@
   (apply + (map string-length (map number->string l)))
 )
 
-(define (advanced-mean x)
-  (display "Not Implemented")
+(define (advanced-mean-helper x l)
+    (cond
+      [(zero? x)
+        (display "The values introduced are: ")
+        (display l)
+        (display "\n")
+        (display "Their mean is: ")
+        (display (/ (apply + l) (length l)))
+        (display "\n")]
+      [else (advanced-mean (cons x l))]
+  )
+)
+
+(define (advanced-mean l)
+  (display "Introduce one number: ")
+  (advanced-mean-helper (read) l)
 )
 
 (define (curried-do-smt x)
@@ -65,3 +79,4 @@
   (sum-matrix-helper x 0)
 )
 
+(advanced-mean '())
