@@ -16,10 +16,10 @@
   )
 )
 
-(define (myMeanHelper l accum)
+(define (myMeanHelper l acc)
   (if (null? l)
-    accum
-    (myMeanHelper (cdr l) (+ (car l) accum))
+    acc
+    (myMeanHelper (cdr l) (+ (car l) acc))
   )
 )
 
