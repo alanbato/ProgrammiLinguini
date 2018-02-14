@@ -4,9 +4,9 @@
   (if (empty? a)
     a
     (let ([pivot (car a)])
-      (let ([t (cdr a)])
-        (let ([left (filter (lambda (x) (< x pivot)) t)])
-          (let ([right (filter (lambda (x) (>= x pivot)) t)])
+      (let ([tail (cdr a)])
+        (let ([left (filter (lambda (x) (< x pivot)) tail)])
+          (let ([right (filter (lambda (x) (>= x pivot)) tail)])
             (append (quick_sort left) (list pivot) (quick_sort right))
           )
         )
@@ -19,6 +19,28 @@
  (0)
 )
 
+(define (get_height_avg g t)
+  (let ([fl (filter (lambda (l) (equal? (car l) g)) t)])
+    (/ (apply + (map cadr fl)) 
+       (exact->inexact (length fl))
+    )
+  )
+)
+
 (define (table_summary t)
-  
+  (list (list "Male" (get_height_avg "Male" t)) (list "Female" (get_height_avg "Female" t)))
+)
+
+(table_summary '(
+  ("Male" 178)
+  ("Female" 165)
+  ("Female" 158)
+  ("Female" 182)
+  ("Male" 161)
+  ("Male" 175)
+  ("Female" 182)
+  ("Male" 188)
+  ("Male" 169)
+  ("Female" 156)
+  )
 )
