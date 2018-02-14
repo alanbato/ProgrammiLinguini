@@ -16,7 +16,7 @@
 )
 
 (define (matrix_mult m1 m2)
- (0)
+  (map (lambda (row) (map (lambda (col) (apply + (map * row col))) (apply map list m2))) m1)
 )
 
 (define (get_height_avg g t)
@@ -31,16 +31,4 @@
   (list (list "Male" (get_height_avg "Male" t)) (list "Female" (get_height_avg "Female" t)))
 )
 
-(table_summary '(
-  ("Male" 178)
-  ("Female" 165)
-  ("Female" 158)
-  ("Female" 182)
-  ("Male" 161)
-  ("Male" 175)
-  ("Female" 182)
-  ("Male" 188)
-  ("Male" 169)
-  ("Female" 156)
-  )
-)
+(matrix_mult '((1 2 3) (4 5 6) (7 8 9)) '((1 2 3) (4 5 6) (7 8 9)))
