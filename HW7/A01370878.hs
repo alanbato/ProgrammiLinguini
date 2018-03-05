@@ -7,20 +7,38 @@ invert (x:xs) = invert xs ++ [x]
 
 -- Cleans a string. Given a string, return recursively a "cleaned" string where adjacent chars that are the same have been reduced to a single char. So "yyzzza" yields "yza".
 cleanString :: [Char] -> [Char]
-cleanString _ = error "Not yet implemented."
+cleanString [] = []
+cleanString [x] = [x]
+cleanString (x:xs) = if x == y
+    then cleanString xs
+    else x : cleanString xs
+    where (y:ys) = xs
 
 -- Multiples
 multiples :: [Int] -> Int -> [Int]
-multiples x i = filter (\e -> e `mod` i == 0) x
+multiples a i = filter (\x -> x `mod` i == 0) a
 
 -- Evaluation of polynomials
+
 evaluate :: [Double] -> Double -> Double
-evaluate _ _ = error "Not yet implemented."
+evaluate [] x = 0
+evaluate (a:as) x = a*x^(length as) + (evaluate as x)
 
 -- Returns a string with the binary representation of an integer value
 toBinaryString :: Int -> [Char]
-toBinaryString _ = error "Not yet implemented."
+toBinaryString 1 = "1"
+toBinaryString n
+                | even n = (toBinaryString (n `div` 2)) ++ "0"
+                | otherwise = (toBinaryString ((n - 1) `div` 2)) ++ "1"
 
 -- Insertion sort
+
+insert :: Int -> [Int] -> [Int]
+insert x [] = [x]
+insert x (y:ys)
+        | x < y = x:y:ys
+        | otherwise = y:(insert x ys)
+
 insertionSort :: [Int] -> [Int]
-insertionSort _ = error "Not yet implemented."
+insertionSort [] = []
+insertionSort (x:xs) = insert x (insertionSort xs)
