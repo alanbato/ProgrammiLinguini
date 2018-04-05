@@ -27,7 +27,8 @@ cleanString([X | XS]) -> if
   end.
 
 % Evaluation of polynomials
-evaluate(_, _) -> io:format("Not yet implemented.~n").
+evaluate([], X) -> 0;
+evaluate([A | AS], X) -> A*math:pow(X, (length(AS))) + (evaluate(AS, X)).
 
 % Converts a number to a binary string.
 toBinaryString(_) -> io:format("Not yet implemented.~n").
