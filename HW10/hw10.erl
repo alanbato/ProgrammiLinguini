@@ -19,7 +19,12 @@ removeNestedLists([[_|_]=H|T],Acc) -> removeNestedLists(T, removeNestedLists(H,A
 removeNestedLists([H|T],Acc) -> removeNestedLists(T,Acc++[H]).
 
 % Cleans a string. Given a string, return recursively a 'cleaned' string where adjacent chars that are the same have been reduced to a single char. So "yyzzza" yields "yza".
-cleanString(_) -> io:format("Not yet implemented.~n").
+cleanString([]) -> [];
+cleanString([X]) -> [X];
+cleanString([X | XS]) -> if 
+  X == hd(XS) -> cleanString(XS);
+  true -> [X] ++ cleanString(XS)
+  end.
 
 % Evaluation of polynomials
 evaluate(_, _) -> io:format("Not yet implemented.~n").
