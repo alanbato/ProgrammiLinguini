@@ -7,15 +7,16 @@ sumFirst(N) -> sumFirst(N - 1) + N.
 
 % Calculates the sum of the elements in a list (ignores nested lists).
 
-recursiveSum([]) -> 0;
-recursiveSum([H | T]) when is_list(H) -> recursiveSum(T) + hd(H);
-recursiveSum([H | T]) -> recursiveSum(T) + H.
 nestedSum([]) -> 0;
-nestedSum([H | T]) when is_list(H) -> recursiveSum(H) + nestedSum(T);
+nestedSum([H | T]) when is_list(H) -> hd(H) + nestedSum(tl(H)) + nestedSum(T);
 nestedSum([H | T]) -> nestedSum(T) + H.
 
 % Removes nested lists in the argument and returns all the elements as one single plain list.
-removeNestedLists(_) -> io:format("Not yet implemented.~n").
+removeNestedLists(X) -> removeNestedLists(X,[]).
+removeNestedLists([],Acc) -> Acc;
+removeNestedLists([[]|T],Acc) -> removeNestedLists(T, Acc);
+removeNestedLists([[_|_]=H|T],Acc) -> removeNestedLists(T, removeNestedLists(H,Acc));
+removeNestedLists([H|T],Acc) -> removeNestedLists(T,Acc++[H]).
 
 % Cleans a string. Given a string, return recursively a 'cleaned' string where adjacent chars that are the same have been reduced to a single char. So "yyzzza" yields "yza".
 cleanString(_) -> io:format("Not yet implemented.~n").
