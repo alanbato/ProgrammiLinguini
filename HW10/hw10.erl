@@ -45,4 +45,5 @@ zip(_, []) -> [];
 zip([HL1 | TL1], [HL2 | TL2]) -> [{HL1, HL2}] ++ zip(TL1, TL2).
 
 % Lists of tuples
-tuplesToList(_) -> io:format("Not yet implemented.~n").
+tuplesToList([]) -> [];
+tuplesToList([{A, B} | T]) -> [A] ++ tuplesToList(T) ++ [B].
