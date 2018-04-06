@@ -27,11 +27,16 @@ cleanString([X | XS]) -> if
   end.
 
 % Evaluation of polynomials
-evaluate([], X) -> 0;
+evaluate([], _) -> 0;
 evaluate([A | AS], X) -> A*math:pow(X, (length(AS))) + (evaluate(AS, X)).
 
 % Converts a number to a binary string.
-toBinaryString(_) -> io:format("Not yet implemented.~n").
+toBinaryString(0) -> "0";
+toBinaryString(1) -> "1";
+toBinaryString(N) -> if
+  N band 1 == 0 -> toBinaryString(N div 2) ++ "0";
+  true -> toBinaryString((N - 1) div 2) ++ "1"
+  end.
 
 % Zipping two lists
 zip(_, _) -> io:format("Not yet implemented.~n").
