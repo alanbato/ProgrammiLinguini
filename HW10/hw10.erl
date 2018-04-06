@@ -1,5 +1,6 @@
 -module(hw10).
 -export([sumFirst/1, nestedSum/1, removeNestedLists/1, cleanString/1, evaluate/2, toBinaryString/1, zip/2, tuplesToList/1]).
+% Enrique Barragán González A01370878
 
 % Sum of first n positive integers
 sumFirst(0) -> 0;
@@ -39,7 +40,9 @@ toBinaryString(N) -> if
   end.
 
 % Zipping two lists
-zip(_, _) -> io:format("Not yet implemented.~n").
+zip([], _) -> [];
+zip(_, []) -> [];
+zip([HL1 | TL1], [HL2 | TL2]) -> [{HL1, HL2}] ++ zip(TL1, TL2).
 
 % Lists of tuples
 tuplesToList(_) -> io:format("Not yet implemented.~n").
