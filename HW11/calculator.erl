@@ -21,4 +21,4 @@ operation(N) ->
 
 start(N) ->
   io:format("Calculator started...~n", []),
-  spawn(calculator, operation, [N]).
+  register(calculator, spawn(calculator, operation, [N])).
