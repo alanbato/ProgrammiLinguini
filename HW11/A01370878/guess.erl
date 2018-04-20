@@ -4,16 +4,29 @@
 server(N) -> 
 	% Complete your code here.
 	% This is the code for the server.
+  receive
+    {X} when X < N -> client ! smaller, server(N);
+    {X} when X > N -> client ! larger, server(N);
+    _ -> client ! equal, server(N);
+  end.
 
 clientReceive() ->
 	% Complete your code here.
 	% This is the code for the client to handle the messages sent by the server (the feedback on the guess).
+  receive
+    smaller -> io:format("Your guess is smaller than the secret number~n"), clientReceive();
+    larger -> io:format("Your guess is larger than the secret number~n"), clientReceive();
+    equal -> io:format("Your guess is correct!~n"), clientReceive()
+  end.
 
 clientSend(Node) ->
 	% Complete your code here.
 	% This is the code for the client to send messages to the server.
 	% You can use {server, Node} ! {N} to send a guess to the server.
 	% Do not forget to include node() when sendind a message to the server, otherwise the server will not know in which node your process is running.
+  receive
+    N -> {server, Node} ! {N}, clientSend(Node)
+  end.
 
 % Starts the session in the server
 start(N) -> 
