@@ -86,7 +86,11 @@ startCracker() ->
 % Codes for the Bank-like system
 %=======================================
 
-
+% start() -> .
+% stop() -> .
+% print_balances() ->.
+% create_account(A) ->.
+% print_balance(U) ->.
 
 %=======================================
 % Codes for the factorial
