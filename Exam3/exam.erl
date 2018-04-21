@@ -2,7 +2,7 @@
 -compile(export_all).
 
 %=======================================
-% Do not forget to include the full name 
+% Do not forget to include the full name
 % and student ID of the team members
 %=======================================
 
@@ -74,23 +74,92 @@ pinCracker(Pid, Letter, Value) ->
   end.
 
 startCracker() ->
-	Pin = spawn(exam, pin, [-1, -1, -1, -1, -1]),
-	spawn(exam, pinCracker, [Pin, a, 5]),
-	spawn(exam, pinCracker, [Pin, b, 5]),
-	spawn(exam, pinCracker, [Pin, c, 5]),
-	spawn(exam, pinCracker, [Pin, d, 5]),
-	spawn(exam, pinCracker, [Pin, e, 5]).
+  Pin = spawn(exam, pin, [-1, -1, -1, -1, -1]),
+  spawn(exam, pinCracker, [Pin, a, 5]),
+  spawn(exam, pinCracker, [Pin, b, 5]),
+  spawn(exam, pinCracker, [Pin, c, 5]),
+  spawn(exam, pinCracker, [Pin, d, 5]),
+  spawn(exam, pinCracker, [Pin, e, 5]).
 
 
 %=======================================
 % Codes for the Bank-like system
 %=======================================
+bankServer(D) ->
+  receive
+    {create, Amount} -> io:format("Registered client ~p~n", [client]),
+      bankServer(orddict:store(client, Amount, D));
 
+    {balance} -> case orddict:is_key(client, D) of
+      true -> client ! {balance, orddict:find(client, D)}, bankServer(D);
+      false -> client ! {balance, error}, bankServer(D)
+    end;
+
+    {deposit, Amount} -> case orddict:is_key(client, D) of
+      true ->
+        client ! {deposit, Amount}, bankServer(orddict:update_counter(client, Amount, D));
+      false -> client ! {deposit, error}, bankServer(D)
+    end;
+
+    {withdraw, Amount} -> case orddict:is_key(client, D) of
+      true -> client ! {withdraw, Amount}, bankServer(orddict:update_counter(client,-Amount, D));
+      false -> client ! {withdraw, error}, bankServer(D)
+    end;
+
+    status ->
+      io:format("The status of the accounts are:~n~p~n", [orddict:to_list(D)]),
+      bankServer(D);
+
+    stop ->
+      self() ! status, io:format("The bank is closing now. Bye!~n", [])
+  end.
+
+clientReceive() ->
+  receive
+    {balance, error} -> io:format("The account doesn't exist.~n", []), clientReceive();
+    {balance, Amount} -> io:format("Your account balance is: $~p~n", [Amount]), clientReceive();
+
+    {deposit, error} -> io:format("Your account doesn't exist.~n", []), clientReceive();
+    {deposit, Amount} -> io:format("Your account has been deposited $~p.~n", [Amount]), clientReceive();
+
+    {withdraw, error} -> io:format("Your account cannot be credited that amount.~n", []), clientReceive();
+    {withdraw, Amount} -> io:format("Your have withdrawn $~p from your account.~n", [Amount]), clientReceive()
+  end.
+
+startBank() ->
+  io:format("The bank is opening. Welcome!~n", []),
+  register(bank, spawn(exam, bankServer, [orddict:new()])).
+
+stopBank() ->
+  bank ! stop.
+
+createAccount(N) when N < 500 -> io:format("The minimum amount to open an account is $500.~n", []);
+createAccount(N) when N >= 500 ->
+  io:format("Your account has been created with $~p.~n", [N]),
+  register(client, spawn(exam, clientReceive, [])),
+  bank ! {client, N}.
+
+balance() ->
+  bank ! {balance}.
+
+deposit(N) when N < 20 -> io:format("The minimum amount to deposit is $20.~n", []);
+deposit(N) ->
+  bank ! {deposit, N}.
+
+<<<<<<< Updated upstream
 % start() -> .
 % stop() -> .
 % print_balances() ->.
 % create_account(A) ->.
 % print_balance(U) ->.
+=======
+withdraw(N) when N < 1 -> io:format("The minimum amount to withdraw is $1.~n", []);
+withdraw(N) ->
+  bank ! {withdraw, N}.
+
+status() ->
+  bank ! status.
+>>>>>>> Stashed changes
 
 %=======================================
 % Codes for the factorial
