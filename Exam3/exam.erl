@@ -146,20 +146,12 @@ deposit(N) when N < 20 -> io:format("The minimum amount to deposit is $20.~n", [
 deposit(N) ->
   bank ! {deposit, N}.
 
-<<<<<<< Updated upstream
-% start() -> .
-% stop() -> .
-% print_balances() ->.
-% create_account(A) ->.
-% print_balance(U) ->.
-=======
 withdraw(N) when N < 1 -> io:format("The minimum amount to withdraw is $1.~n", []);
 withdraw(N) ->
   bank ! {withdraw, N}.
 
 status() ->
   bank ! status.
->>>>>>> Stashed changes
 
 %=======================================
 % Codes for the factorial
