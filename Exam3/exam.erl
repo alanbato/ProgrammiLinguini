@@ -162,8 +162,20 @@ status() ->
 %=======================================
 % Bisection method
 %=======================================
+evaluate(L,X) ->
+  lists:foldl(fun(C, Acc) -> X * Acc + C end,0, L).
 
-
+solve(L, A, B, E) ->
+  C = (A+B)/2,
+  FA = evaluate(L, A),
+  FB = evaluate(L, B),
+  FC = evaluate(L, C),
+  if
+    (FA * FB) > 0 -> io:format("The method needs points f(a) and f(b) to have different signs.~n", []);
+    (E > abs(FC)) or (E > ((B-A)/2)) -> io:format("~p~n", [C]);
+    (FA * FC) > 0 -> solve(L, C, B, E);
+    true -> solve(L, A, C, E)
+  end.
 
 %=======================================
 % Codes for game of lists
