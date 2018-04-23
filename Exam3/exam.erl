@@ -87,7 +87,7 @@ startCracker() ->
 %=======================================
 bankServer(D) ->
   receive
-    {create, Amount} -> io:format("Registered client ~p~n", [client]),
+    {create, Amount} -> io:format("Registered client~n"),
       bankServer(orddict:store(client, Amount, D));
 
     {balance} -> case orddict:is_key(client, D) of
@@ -137,7 +137,7 @@ createAccount(N) when N < 500 -> io:format("The minimum amount to open an accoun
 createAccount(N) when N >= 500 ->
   io:format("Your account has been created with $~p.~n", [N]),
   register(client, spawn(exam, clientReceive, [])),
-  bank ! {client, N}.
+  bank ! {create, N}.
 
 balance() ->
   bank ! {balance}.
@@ -152,13 +152,6 @@ withdraw(N) ->
 
 status() ->
   bank ! status.
-
-%=======================================
-% Codes for the factorial
-%=======================================
-
-
-
 %=======================================
 % Bisection method
 %=======================================
