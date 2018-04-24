@@ -255,7 +255,7 @@ findPlace(E, [], _, Rest) -> Rest ++ [[E]];
 findPlace(E, [H | T], C, Rest) ->
   Sum = lists:sum(H) + E,
 if
-  Sum =< C -> Rest ++ [H ++ [E]] ++ T;
+  Sum =< C -> Rest ++ [[E] ++ H] ++ T;
   true -> findPlace(E, T, C, Rest ++ [H])
 end.
 firstFit([], _, A) -> A;
