@@ -189,9 +189,28 @@ dummyPlayer() ->
 % Rememeber that you can provide additional arguments to your function in order to get a better performance.
 player() ->
 receive
-    {Pid, _} -> Pid ! right, player()
+    {Pid, L} -> Pid ! best_choice(L), player()
   end.
 
+best_value([], true, Acc1, _) -> Acc1;
+best_value([], false, _, Acc2) -> Acc2;
+best_value([N|[]], true, Acc1, _) -> N+Acc1;
+best_value([N|[]], false, _, Acc2) -> Acc2-N;
+best_value(L, true, Acc1, Acc2) ->
+  lists:max([best_value(L2, false, Acc1+N, Acc2) ||
+        {L2, N} <- [{tl(L),hd(L)} , {lists:droplast(L), lists:last(L)}]]);
+best_value(L, false, Acc1, Acc2) ->
+  lists:min([best_value(L2, true, Acc1, Acc2-N) ||
+        {L2, N} <- [{tl(L),hd(L)} , {lists:droplast(L), lists:last(L)}]]).
+
+best_choice(L) ->
+  Left = best_value(tl(L), false, hd(L), 0),
+  Right = best_value(lists:droplast(L), false, lists:last(L), 0),
+  if
+    Left > Right -> left;
+    true -> right
+  end.
+  
 % --------------------------------------------------
 % This must not be changed.
 % Modify only the lines that
