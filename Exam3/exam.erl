@@ -251,4 +251,14 @@ play(false, X, SP1, SP2) ->
 %=======================================
 % Codes for bin packing
 %=======================================
-
+findPlace(E, [], _, Rest) -> Rest ++ [[E]];
+findPlace(E, [H | T], C, Rest) ->
+  Sum = lists:sum(H) + E,
+if
+  Sum =< C -> Rest ++ [H ++ [E]] ++ T;
+  true -> findPlace(E, T, C, Rest ++ [H])
+end.
+firstFit([], _, A) -> A;
+firstFit([H | T], C, A) ->
+  firstFit(T, C, findPlace(H, A, C, [])). 
+solve([H|T], C) -> firstFit(T, C, [[H]]).
